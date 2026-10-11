@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="102" fill="#000000"/>
+  <rect x="51" y="51" width="410" height="64" rx="32" fill="#ff9900"/>
+  <rect x="97" y="174" width="318" height="194" rx="32" fill="#ffcc66"/>
+  <rect x="129" y="213" width="254" height="24" fill="#9999cc"/>
+  <text x="256" y="330" font-family="DejaVu Sans, Arial, sans-serif" font-weight="bold" font-size="72" text-anchor="middle" fill="#000000">TAN</text>
+  <rect x="51" y="419" width="197" height="32" rx="16" fill="#cc99cc"/>
+  <rect x="264" y="419" width="197" height="32" rx="16" fill="#9999ff"/>
+</svg>

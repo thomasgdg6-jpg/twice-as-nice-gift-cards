@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Twice As Nice Boutique — Gift Cards</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- LCARS masthead (decorative frame) -->
+<div class="lcars-bar" aria-hidden="true">
+  <div class="lb-elbow"></div>
+  <div class="lb-title">TWICE AS NICE&ensp;&middot;&ensp;GIFT CARDS</div>
+  <div class="lb-blk lb-b1"></div>
+  <div class="lb-blk lb-b2"></div>
+  <div class="lb-sd"><span id="lcars-sd">SD ----.-</span></div>
+</div>
+<script>
+(function () {
+  try {
+    var d = new Date();
+    var start = new Date(d.getFullYear(), 0, 0);
+    var doy = Math.floor((d - start) / 864e5);
+    var sd = ((d.getFullYear() % 100) * 1000 + (doy / 365.25) * 1000).toFixed(1);
+    var el = document.getElementById('lcars-sd');
+    if (el) el.textContent = 'SD ' + sd;
+  } catch (e) { /* decorative only */ }
+})();
+</script>
+
+<!-- ============ SETUP (first launch: paste publishable key) ============ -->
+<section id="screen-setup" class="screen">
+  <div class="card narrow">
+    <h1>Twice As Nice Boutique</h1>
+    <p class="subtitle">Gift Card System — one-time setup</p>
+    <p>Paste your Supabase <strong>publishable key</strong> below. It is saved only in this
+       browser and is never sent anywhere except your own Supabase project.</p>
+    <label for="setup-key">Publishable key</label>
+    <input id="setup-key" type="text" autocomplete="off" spellcheck="false"
+           placeholder="sb_publishable_...">
+    <p id="setup-error" class="error" hidden></p>
+    <button id="setup-save" class="btn primary">Save &amp; Continue</button>
+  </div>
+</section>
+
+<!-- ============ AUTH ============ -->
+<section id="screen-auth" class="screen" hidden>
+  <div class="card narrow">
+    <h1>Twice As Nice Boutique</h1>
+    <p class="subtitle">Staff sign-in</p>
+
+    <div id="auth-tabs" class="tabs">
+      <button id="tab-signin" class="tab active" type="button">Sign in</button>
+      <button id="tab-signup" class="tab" type="button">Create account</button>
+    </div>
+
+    <form id="form-signin">
+      <label for="signin-email">Email</label>
+      <input id="signin-email" type="email" required autocomplete="username" placeholder="you@example.com">
+      <label for="signin-password">Password</label>
+      <input id="signin-password" type="password" required autocomplete="current-password" placeholder="••••••••">
+      <button class="btn primary" type="submit">Sign in</button>
+    </form>
+
+    <form id="form-signup" hidden>
+      <label for="signup-email">Email</label>
+      <input id="signup-email" type="email" required autocomplete="username" placeholder="you@example.com">
+      <label for="signup-password">Password</label>
+      <input id="signup-password" type="password" required autocomplete="new-password"
+             placeholder="Choose a password (6+ characters)">
+      <button class="btn primary" type="submit">Create account</button>
+      <p class="hint">Each staff member creates their own account here.</p>
+    </form>
+
+    <p id="auth-error" class="error" hidden></p>
+    <p class="hint">If sign-in fails right after creating an account, ask the owner to turn off
+      <strong>&ldquo;Confirm email&rdquo;</strong> in Supabase &rarr; Authentication &rarr; Settings.</p>
+  </div>
+</section>
+
+<!-- ============ MAIN APP ============ -->
+<section id="screen-app" class="screen" hidden>
+  <header class="app-header">
+    <div>
+      <h1>Twice As Nice Boutique</h1>
+      <p class="subtitle">Gift cards &mdash; <span id="whoami"></span></p>
+    </div>
+    <div class="header-actions">
+      <button id="btn-settings" class="btn small" type="button">Settings</button>
+      <button id="btn-signout" class="btn small" type="button">Sign out</button>
+    </div>
+  </header>
+
+  <nav class="tabs main-tabs">
+    <button class="tab active" data-view="view-issue" type="button">Issue</button>
+    <button class="tab" data-view="view-lookup" type="button">Lookup</button>
+    <button class="tab" data-view="view-history" type="button">History</button>
+  </nav>
+
+  <p id="app-error" class="error" hidden></p>
+
+  <!-- ISSUE -->
+  <div id="view-issue" class="view card">
+    <h2>Issue a gift card</h2>
+    <form id="form-issue">
+      <label for="issue-amount">Amount ($)</label>
+      <input id="issue-amount" type="number" min="0.01" step="0.01" required placeholder="25.00">
+      <label for="issue-recipient">Recipient (To)</label>
+      <input id="issue-recipient" type="text" placeholder="Who is it for?">
+      <label for="issue-giver">Giver (From)</label>
+      <input id="issue-giver" type="text" placeholder="Who is giving it?">
+      <label for="issue-message">Message</label>
+      <textarea id="issue-message" rows="2" placeholder="Happy birthday!"></textarea>
+      <button class="btn primary" type="submit">Issue card</button>
+    </form>
+    <div id="issue-result" class="result" hidden>
+      <p class="result-label">Card issued</p>
+      <p id="issue-code" class="big-code"></p>
+      <button id="issue-print" class="btn" type="button">Print voucher</button>
+    </div>
+  </div>
+
+  <!-- LOOKUP -->
+  <div id="view-lookup" class="view card" hidden>
+    <h2>Look up a card</h2>
+    <form id="form-lookup">
+      <label for="lookup-code">Card code</label>
+      <input id="lookup-code" type="text" autocomplete="off" spellcheck="false"
+             placeholder="TAN-XXXXXXXX" style="text-transform:uppercase">
+      <button class="btn primary" type="submit">Find card</button>
+    </form>
+    <div id="lookup-result" hidden>
+      <dl class="details">
+        <div><dt>Code</dt><dd id="card-code" class="big-code"></dd></div>
+        <div><dt>Balance</dt><dd id="card-balance"></dd></div>
+        <div><dt>Original amount</dt><dd id="card-amount"></dd></div>
+        <div><dt>Status</dt><dd id="card-status"></dd></div>
+        <div><dt>To</dt><dd id="card-recipient"></dd></div>
+        <div><dt>From</dt><dd id="card-giver"></dd></div>
+        <div><dt>Message</dt><dd id="card-message"></dd></div>
+      </dl>
+      <div id="redeem-block">
+        <h3>Redeem</h3>
+        <form id="form-redeem">
+          <label for="redeem-amount">Redeem amount ($)</label>
+          <input id="redeem-amount" type="number" min="0.01" step="0.01" required placeholder="0.00">
+          <button class="btn primary" type="submit">Redeem</button>
+        </form>
+      </div>
+      <button id="lookup-print" class="btn" type="button">Print voucher</button>
+    </div>
+  </div>
+
+  <!-- HISTORY -->
+  <div id="view-history" class="view card" hidden>
+    <h2>Transaction history</h2>
+    <label for="history-filter">Filter by card code</label>
+    <input id="history-filter" type="text" autocomplete="off" spellcheck="false"
+           placeholder="TAN-XXXXXXXX (leave blank for all)" style="text-transform:uppercase">
+    <div id="history-list" class="history-list"></div>
+  </div>
+</section>
+
+<!-- ============ SETTINGS MODAL ============ -->
+<div id="modal-settings" class="modal" hidden>
+  <div class="modal-box card">
+    <h2>Settings</h2>
+    <p>Your Supabase publishable key is stored only in this browser.</p>
+    <label for="settings-key">Publishable key</label>
+    <input id="settings-key" type="text" autocomplete="off" spellcheck="false">
+    <p id="settings-error" class="error" hidden></p>
+    <div class="row">
+      <button id="settings-save" class="btn primary" type="button">Save key</button>
+      <button id="settings-reset" class="btn danger" type="button">Reset (clear key)</button>
+      <button id="settings-close" class="btn" type="button">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PRINT-ONLY VOUCHER (4x6) ============ -->
+<div id="print-area" aria-hidden="true"></div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,411 @@
+/* Twice As Nice Boutique — Gift Card staff tool · LCARS interface */
+
+:root {
+  --black: #000000;
+  --panel: #0c0c11;
+  --panel-line: #26262f;
+  --orange: #ff9900;
+  --orange-dk: #cc6633;
+  --purple: #cc99cc;
+  --blue: #9999ff;
+  --blue-pale: #9999cc;
+  --tan: #ffcc99;
+  --red: #cc4444;
+  --ink: #ffffff;
+  --dim: #b9a8c9;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--black);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ---------- LCARS masthead ---------- */
+.lcars-bar {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  max-width: 592px;
+  margin: 14px auto 22px;
+  padding: 0 16px;
+}
+.lb-elbow {
+  flex: 0 0 46px;
+  background: var(--orange);
+  border-radius: 23px 6px 6px 23px;
+  min-height: 54px;
+}
+.lb-title {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #0b0b10;
+  border: 2px solid var(--panel-line);
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  font-size: 0.95rem;
+  padding: 0 14px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.lb-blk { flex: 0 0 34px; border-radius: 6px; }
+.lb-b1 { background: var(--purple); }
+.lb-b2 { background: var(--blue); }
+.lb-sd {
+  display: flex;
+  align-items: center;
+  background: var(--tan);
+  color: #000;
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  padding: 0 12px;
+  border-radius: 6px 23px 23px 6px;
+  white-space: nowrap;
+}
+@media (max-width: 430px) {
+  .lb-blk { display: none; }
+  .lb-title { font-size: 0.78rem; letter-spacing: 0.08em; }
+  .lb-sd { font-size: 0.7rem; }
+}
+
+/* ---------- layout ---------- */
+.screen {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 16px 48px;
+}
+
+.card {
+  background: var(--panel);
+  border: 2px solid var(--panel-line);
+  border-radius: 26px;
+  padding: 22px;
+}
+.card::before {
+  content: "";
+  display: block;
+  height: 12px;
+  border-radius: 8px;
+  margin: 0 0 18px;
+  background: linear-gradient(90deg, var(--orange) 0 34%, var(--purple) 34% 62%, var(--blue) 62% 100%);
+}
+
+.narrow { max-width: 440px; margin: 4vh auto 0; }
+
+h1 {
+  font-size: 1.25rem;
+  margin: 0 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+h2 {
+  font-size: 1.05rem;
+  margin: 0 0 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--orange);
+}
+h3 {
+  font-size: 0.95rem;
+  margin: 20px 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--purple);
+}
+.subtitle { color: var(--dim); margin: 0 0 16px; font-size: 0.95rem; }
+
+label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--tan);
+  margin: 16px 0 8px;
+}
+
+input, textarea {
+  width: 100%;
+  font-size: 16px; /* prevents iOS zoom */
+  padding: 14px;
+  border: 2px solid var(--blue-pale);
+  border-radius: 14px;
+  background: #0e0e14;
+  color: var(--ink);
+}
+textarea { resize: vertical; }
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 2px rgba(255, 153, 0, 0.35);
+}
+
+/* ---------- LCARS pill buttons ---------- */
+.btn {
+  display: inline-block;
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 14px 22px;
+  margin-top: 18px;
+  border: none;
+  border-radius: 999px;
+  background: var(--blue-pale);
+  color: #000;
+  cursor: pointer;
+  min-height: 52px;
+}
+.btn:active { filter: brightness(0.85); }
+
+.btn.primary {
+  background: var(--orange);
+  color: #000;
+  width: 100%;
+}
+
+.btn.small {
+  font-size: 0.78rem;
+  padding: 10px 18px;
+  margin-top: 0;
+  min-height: 44px;
+  background: var(--purple);
+  color: #000;
+}
+
+.btn.danger {
+  background: var(--red);
+  color: #fff;
+}
+
+.error {
+  background: #3d0f0f;
+  border: 2px solid var(--red);
+  color: #ffd7d7;
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin: 14px 0 0;
+  font-size: 0.92rem;
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: var(--dim);
+  line-height: 1.5;
+}
+.hint strong { color: var(--tan); }
+
+/* ---------- LCARS tabs ---------- */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.tab {
+  flex: 1;
+  background: #1d1d2a;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 4px;
+  min-height: 52px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #fff;
+  cursor: pointer;
+}
+.tab.active {
+  background: var(--orange);
+  color: #000;
+}
+
+/* ---------- app header ---------- */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: #0b0b10;
+  border: 2px solid var(--panel-line);
+  border-radius: 22px;
+  padding: 14px 14px 14px 0;
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+.app-header > div:first-child {
+  border-left: 16px solid var(--orange);
+  padding-left: 14px;
+  min-width: 0;
+}
+.app-header h1 { font-size: 1rem; }
+.app-header .subtitle { margin: 2px 0 0; font-size: 0.85rem; color: var(--tan); }
+#whoami { color: #fff; font-weight: 700; }
+
+.header-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+.view { margin-bottom: 24px; }
+
+/* ---------- issue result ---------- */
+.result {
+  margin-top: 20px;
+  padding: 18px;
+  border: 3px solid var(--orange);
+  border-radius: 26px;
+  background: #141008;
+  text-align: center;
+}
+.result-label {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--orange);
+  margin: 0 0 10px;
+}
+
+.big-code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--tan);
+  margin: 0 0 8px;
+  word-break: break-all;
+}
+
+/* ---------- lookup details ---------- */
+.details { margin: 16px 0 0; }
+.details > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 2px;
+  border-bottom: 1px solid var(--panel-line);
+}
+.details dt {
+  color: var(--tan);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.details dd { margin: 0; font-weight: 700; text-align: right; }
+#card-balance { color: var(--orange); font-size: 1.25rem; }
+.details dd.big-code { font-size: 1.1rem; }
+
+/* ---------- history ---------- */
+.history-list { margin-top: 14px; }
+
+.history-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  background: #101018;
+  border-left: 10px solid var(--purple);
+  border-radius: 16px;
+  font-size: 0.92rem;
+}
+
+.history-row .code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-weight: 700;
+  color: var(--tan);
+}
+
+.history-row .kind {
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--orange);
+}
+
+.history-row .meta { color: var(--dim); font-size: 0.82rem; }
+.history-row .amount { font-weight: 800; text-align: right; color: #fff; font-size: 1.05rem; }
+
+.empty { color: var(--dim); padding: 16px 0; }
+
+.lcars-working {
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 800;
+  animation: lcars-blink 1.2s ease-in-out infinite;
+}
+@keyframes lcars-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+/* ---------- settings modal ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 50;
+}
+
+.modal-box { width: 100%; max-width: 440px; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.row .btn { flex: 1; width: auto; margin-top: 18px; white-space: nowrap; }
+
+/* ---- print-only voucher (customer-facing: boutique branding untouched) ---- */
+#print-area { display: none; }
+
+@media print {
+  body { background: #fff; }
+  .screen, .modal, .lcars-bar { display: none !important; }
+  #print-area { display: block; }
+
+  .voucher {
+    width: 6in;
+    height: 4in;
+    padding: 0.35in 0.45in;
+    border: 3px double #2b2118;
+    font-family: Georgia, "Times New Roman", serif;
+    color: #2b2118;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    page-break-inside: avoid;
+  }
+  .voucher h1 {
+    font-size: 20pt;
+    margin: 0;
+    text-align: center;
+    letter-spacing: 0.06em;
+  }
+  .voucher .tagline {
+    text-align: center;
+    font-size: 9pt;
+    color: #8a7561;
+    margin: 2pt 0 8pt;
+  }
+  .voucher .tofrom { font-size: 11pt; line-height: 1.7; }
+  .voucher .message { font-size: 10pt; font-style: italic; margin: 6pt 0; }
+  .voucher .amount { font-size: 16pt; font-weight: bold; text-align: center; margin: 6pt 0; }
+  .voucher .code {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 18pt;
+    font-weight: bold;
+    letter-spacing: 0.12em;
+    text-align: center;
+    border-top: 1px solid #2b2118;
+    padding-top: 6pt;
+  }
+}
